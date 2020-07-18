@@ -1,0 +1,23 @@
+{
+	"manifest_version": 2,
+	"name": "dhtest",
+	"version": "1.0",
+	"description": "Take screenshot of the entire web page and new tab",
+  "permissions": [
+    "<all_urls>",
+    "tabs"
+  ],
+  "background": {
+		"scripts": ["js/background.js"],
+		"persistent": false
+	},
+	"content_scripts": [
+		{
+			"matches": ["<all_urls>"],
+			"js": ["js/contents.js"]
+		}
+	],
+	"browser_action": {
+    "default_icon":  "resource/icon.png"
+	}
+}

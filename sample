@@ -1,0 +1,5 @@
+ passingImg=doucment.createElement("img");
+                            passingImg.src=self.screenshotCanvas.toDataURL("image/png");
+                            chrome.extension.sendMessage({pimg: passingImg}, function(response) {
+                                console.log(response);
+                            });
