@@ -115,9 +115,12 @@ var takeScreenshot = {
 
 						if (lastCapture) {
 							self.resetPage();
-							chrome.tabs.create({
-								url: chrome.runtime.getURL("index.html")
-							});				
+							console.log(self.screenshotCanvas.toDataURL("image/png"));
+							chrome.tabs.create({url: chrome.runtime.getURL("index.html")},function(tab){  
+								console.log("asd");
+								chrome.runtime.sendMessage({someParam: "hello"});
+							}  
+						  );    
 						} else {
 							self.scrollTo(position + self.scrollBy);
 						}

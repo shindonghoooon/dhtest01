@@ -3,3 +3,10 @@
                             chrome.extension.sendMessage({pimg: passingImg}, function(response) {
                                 console.log(response);
                             });
+
+
+                            newWindow.document.write("<img src='" + self.screenshotCanvas.toDataURL("image/png") + "'/>");
+
+                            	chrome.tabs.create({
+								url: chrome.runtime.getURL("index.html")
+							
