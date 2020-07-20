@@ -8,15 +8,14 @@
     "tabs"
   ],
   "background": {
-		"scripts": ["js/background.js",
-		"js/receive.js"],
+		"scripts": ["js/background.js"],
 		"persistent": false
 	},
 	"content_scripts": [
 		{
 			"matches": ["<all_urls>"],
 			"js": ["js/contents.js",
-				"js/content-index"]
+				"js/content-index.js"]
 		}
 	],
 	"browser_action": {

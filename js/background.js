@@ -101,31 +101,35 @@ var takeScreenshot = {
 	 */
 	capturePage: function (position, lastCapture) {
 		var self = this;
-
+		var tab_index;
 		setTimeout(function () {
 			chrome.tabs.captureVisibleTab(null, {
 				"format": "png"
 			}, function (dataURI) {
 				var newWindow,
 					image = new Image();
-
+				
 				if (typeof dataURI !== "undefined") {
 					image.onload = function() {
+					 
 						self.screenshotContext.drawImage(image, 0, position);
-
 						if (lastCapture) {
 							self.resetPage();
-							console.log(self.screenshotCanvas.toDataURL("image/png"));
-							chrome.tabs.create({url: chrome.runtime.getURL("index.html")},function(tab){  
-								console.log("asd");
-								chrome.runtime.sendMessage({someParam: "hello"});
+							var imgsrc=self.screenshotCanvas.toDataURL("image/png");
+							chrome.tabs.create({url: chrome.runtime.getURL("index.html")},function(tab){  								
+								tab_index=tab.id;
+								chrome.tabs.onUpdated.addListener(function(tabID,changeInfo,tab){
+									console.log("tab ID : "+tabID+" status : "+changeInfo.status);
+									if(tabID==tab_index&&changeInfo.status=="complete"){
+										chrome.runtime.sendMessage({someParam: imgsrc});							
+									}
+								});
+								
 							}  
-						  );    
-						} else {
-							self.scrollTo(position + self.scrollBy);
-						}
-					};
-
+						  );					 
+						} 
+						chrome.tabs.onup
+					};	
 					image.src = dataURI;
 				} else {
 					chrome.tabs.sendMessage(self.tabId, {
